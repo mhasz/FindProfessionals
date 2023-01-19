@@ -18,4 +18,9 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FindProfessionals.Data\FindProfessionals.Data.csproj" />
+    <ProjectReference Include="..\FindProfessionals.Domain\FindProfessionals.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
