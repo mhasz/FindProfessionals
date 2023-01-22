@@ -6,8 +6,8 @@ namespace FindProfessionals.Business.Interfaces.Repository
     {
         Task<Rating> GetRatingByIdAsync(Guid id);
         Task<IEnumerable<Rating>> GetRatingsByProfessionalIdAsync(Guid id);
-        Task<Rating> InsertRatingAsync(Rating rating);
-        Task<Rating> UpdateRatingAsync(Rating rating);
-        Task<Rating> DeleteRatingAsync(Guid id);
+        Task InsertRatingAsync(Rating rating);
+        Task UpdateRatingAsync(Rating rating);
+        Task DeleteRatingAsync(Guid id);
     }
 }

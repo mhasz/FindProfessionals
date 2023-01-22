@@ -6,8 +6,8 @@ namespace FindProfessionals.Business.Interfaces.Repository
     {
         Task<IEnumerable<Job>> GetJobsAsync();
         Task<Job> GetJobByIdAsync(Guid id);
-        Task<Job> InsertJobAsync(Job job);
-        Task<Job> UpdateJobAsync(Job job);
-        Task<Job> DeleteJobAsync(Guid id);
+        Task InsertJobAsync(Job job);
+        Task UpdateJobAsync(Job job);
+        Task DeleteJobAsync(Guid id);
     }
 }

@@ -6,7 +6,7 @@ namespace FindProfessionals.Business.Interfaces.Repository
     {
         Task<Archive> GetArchiveByIdAsync(Guid id);
         Task<IEnumerable<Archive>> GetArchivesByJobIdAsync(Guid id);
-        Task<Archive> InsertArchiveAsync(Archive archive);
-        Task<Archive> DeleteArchiveAsync(Guid id);
+        Task InsertArchiveAsync(Archive archive);
+        Task DeleteArchiveAsync(Guid id);
     }
 }

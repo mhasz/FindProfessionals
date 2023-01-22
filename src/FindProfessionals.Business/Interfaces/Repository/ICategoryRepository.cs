@@ -6,8 +6,8 @@ namespace FindProfessionals.Business.Interfaces.Repository
     {
         Task<IEnumerable<Category>> GetCategoriesAsync();
         Task<Category> GetCategoryByIdAsync(int id);
-        Task<Category> InsertCategoryAsync(Category category);
-        Task<Category> UpdateCategoryAsync(Category category);
-        Task<Category> DeleteCategoryAsync(Guid id);
+        Task InsertCategoryAsync(Category category);
+        Task UpdateCategoryAsync(Category category);
+        Task DeleteCategoryAsync(Guid id);
     }
 }

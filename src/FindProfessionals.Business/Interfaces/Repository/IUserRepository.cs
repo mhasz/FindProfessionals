@@ -6,8 +6,8 @@ namespace FindProfessionals.Business.Interfaces.Repository
     {
         Task<IEnumerable<User>> GetUsersAsync();
         Task<User> GetUserByIdAsync(Guid id);
-        Task<User> InsertUserAsync(User user);
-        Task<User> UpdateUserAsync(User user);
-        Task<User> DeleteUserAsync(Guid id);
+        Task InsertUserAsync(User user);
+        Task UpdateUserAsync(User user);
+        Task DeleteUserAsync(Guid id);
     }
 }
