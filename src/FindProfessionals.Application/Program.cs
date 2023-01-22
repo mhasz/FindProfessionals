@@ -1,4 +1,6 @@
+using FindProfessionals.Business.Interfaces.Repository;
 using FindProfessionals.Data.Contexts;
+using FindProfessionals.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace FindProfessionals.Application
@@ -12,6 +14,16 @@ namespace FindProfessionals.Application
             // Add services to the container.
 
             builder.Services.AddDbContext<DataDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+
+            builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+            builder.Services.AddScoped<IArchiveRepository, ArchiveRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<IClientRepository, ClientRepository>();
+            builder.Services.AddScoped<IJobRepository, JobRepository>();
+            builder.Services.AddScoped<IProfessionalRepository, ProfessionalRepository>();
+            builder.Services.AddScoped<IRatingRepository, RatingRepository>();
+            builder.Services.AddScoped<ISubcategoryRepository, SubcategoryRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
 
             builder.Services.AddControllers();
 
