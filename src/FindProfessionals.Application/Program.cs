@@ -1,6 +1,10 @@
 using FindProfessionals.Business.Interfaces.Repository;
+using FindProfessionals.Business.Validators;
 using FindProfessionals.Data.Contexts;
 using FindProfessionals.Data.Repositories;
+using FindProfessionals.Domain.Entities;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FindProfessionals.Application
@@ -25,10 +29,20 @@ namespace FindProfessionals.Application
             builder.Services.AddScoped<ISubcategoryRepository, SubcategoryRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+            builder.Services.AddScoped<IValidator<Address>, AddressValidator>();
+            builder.Services.AddScoped<IValidator<Category>, CategoryValidator>();
+            builder.Services.AddScoped<IValidator<Job>, JobValidator>();
+            builder.Services.AddScoped<IValidator<Professional>, ProfessionalValidator>();
+            builder.Services.AddScoped<IValidator<Rating>, RatingValidator>();
+            builder.Services.AddScoped<IValidator<Subcategory>, SubcategoryValidator>();
+            builder.Services.AddScoped<IValidator<User>, UserValidator>();
+
             builder.Services.AddControllers();
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddFluentValidationAutoValidation();
 
             var app = builder.Build();
 
