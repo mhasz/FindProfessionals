@@ -18,13 +18,17 @@ namespace FindProfessionals.Data.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(50)");
 
+            builder.Property(u => u.Document)
+                .IsRequired()
+                .HasColumnType("varchar(14)");
+
             builder.Property(u => u.Email)
                 .IsRequired()
                 .HasColumnType("varchar(320)");
 
             builder.Property(u => u.Password)
                 .IsRequired()
-                .HasColumnType("varchar(128)");
+                .HasColumnType("varchar(16)");
 
             builder.HasOne(u => u.Address)
                 .WithOne(a => a.User);

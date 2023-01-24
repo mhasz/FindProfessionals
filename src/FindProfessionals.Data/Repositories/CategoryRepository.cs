@@ -24,6 +24,11 @@ namespace FindProfessionals.Data.Repositories
             return await _context.Categories.FindAsync(id);
         }
 
+        public Category GetCategoryByName(string name)
+        {
+            return _context.Categories.AsNoTracking().Where(x => x.Name.ToLower() == name.ToLower()).SingleOrDefault();
+        }
+
         public async Task InsertCategoryAsync(Category category)
         {
             await _context.Categories.AddAsync(category);

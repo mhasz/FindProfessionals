@@ -8,11 +8,12 @@ namespace FindProfessionals.Domain.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public UserDocumentType DocumentType { get; set; }
-        public int Document { get; set; }
+        public string Document { get; set; }
         public DateTime BirthDate { get; set; }
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
         public DateTime LastLogin { get; set; }
         public DateTime RegistrationDate { get; set; }
         public DateTime LastUpdate { get; set; }

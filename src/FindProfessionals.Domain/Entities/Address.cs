@@ -8,7 +8,7 @@
         public int Number { get; set; }
         public string State { get; set; }
         public string City { get; set; }
-        public int PostalCode { get; set; }
+        public string PostalCode { get; set; }
 
         public Guid UserId{ get; set; }
         public virtual User User{ get; set; }

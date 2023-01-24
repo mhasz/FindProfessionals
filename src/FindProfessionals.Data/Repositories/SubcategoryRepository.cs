@@ -24,6 +24,11 @@ namespace FindProfessionals.Data.Repositories
             return await _context.Subcategories.FindAsync(id);
         }
 
+        public Subcategory GetSubcategoryByName(string name)
+        {
+            return _context.Subcategories.AsNoTracking().Where(x => x.Name.ToLower() == name.ToLower()).SingleOrDefault();
+        }
+
         public async Task InsertSubcategoryAsync(Subcategory subcategory)
         {
             await _context.AddAsync(subcategory);

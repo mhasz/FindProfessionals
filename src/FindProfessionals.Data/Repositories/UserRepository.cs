@@ -24,6 +24,16 @@ namespace FindProfessionals.Data.Repositories
             return await _context.Users.FindAsync(id);
         }
 
+        public User GetUserByEmail(string email)
+        {
+            return _context.Users.AsNoTracking().Where(x => x.Email.ToLower() == email.ToLower()).SingleOrDefault();
+        }
+
+        public User GetUserByDocument(string document)
+        {
+            return _context.Users.AsNoTracking().Where(x => x.Document.ToLower() == document.ToLower()).SingleOrDefault();
+        }
+
         public async Task InsertUserAsync(User user)
         {
             await _context.AddAsync(user);

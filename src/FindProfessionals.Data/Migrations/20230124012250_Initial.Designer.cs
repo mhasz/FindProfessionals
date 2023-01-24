@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FindProfessionals.Data.Migrations
 {
     [DbContext(typeof(DataDbContext))]
-    [Migration("20230121014516_Initial")]
+    [Migration("20230124012250_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -46,8 +46,9 @@ namespace FindProfessionals.Data.Migrations
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
-                    b.Property<int>("PostalCode")
-                        .HasColumnType("int");
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("State")
                         .IsRequired()
@@ -284,8 +285,13 @@ namespace FindProfessionals.Data.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Document")
-                        .HasColumnType("int");
+                    b.Property<string>("ConfirmPassword")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Document")
+                        .IsRequired()
+                        .HasColumnType("varchar(14)");
 
                     b.Property<int>("DocumentType")
                         .HasColumnType("int");
@@ -310,10 +316,11 @@ namespace FindProfessionals.Data.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("varchar(16)");
 
-                    b.Property<int>("PhoneNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
 
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("datetime2");

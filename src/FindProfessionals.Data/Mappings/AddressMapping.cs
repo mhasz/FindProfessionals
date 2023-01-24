@@ -15,7 +15,6 @@ namespace FindProfessionals.Data.Mappings
                 .HasColumnType("varchar(100)");            
             
             builder.Property(a => a.Complement)
-                .IsRequired()
                 .HasColumnType("varchar(100)");            
             
             builder.Property(a => a.State)
