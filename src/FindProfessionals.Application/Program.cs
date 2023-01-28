@@ -1,4 +1,6 @@
 using FindProfessionals.Business.Interfaces.Repository;
+using FindProfessionals.Business.Interfaces.Service;
+using FindProfessionals.Business.Services;
 using FindProfessionals.Business.Validators;
 using FindProfessionals.Data.Contexts;
 using FindProfessionals.Data.Repositories;
@@ -28,6 +30,8 @@ namespace FindProfessionals.Application
             builder.Services.AddScoped<IRatingRepository, RatingRepository>();
             builder.Services.AddScoped<ISubcategoryRepository, SubcategoryRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+            builder.Services.AddScoped<IUserService, UserService>();
 
             builder.Services.AddScoped<IValidator<Address>, AddressValidator>();
             builder.Services.AddScoped<IValidator<Category>, CategoryValidator>();

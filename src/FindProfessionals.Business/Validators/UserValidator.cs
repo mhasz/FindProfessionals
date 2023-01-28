@@ -1,4 +1,4 @@
-﻿using FindProfessionals.Business.Interfaces.Repository;
+﻿using FindProfessionals.Business.Interfaces.Service;
 using FindProfessionals.Business.Validators.Document;
 using FindProfessionals.Domain.Entities;
 using FindProfessionals.Domain.Enums;
@@ -8,11 +8,11 @@ namespace FindProfessionals.Business.Validators
 {
     public class UserValidator : AbstractValidator<User>
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
-        public UserValidator(IUserRepository userRepository)
+        public UserValidator(IUserService userService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
 
             RuleFor(x => x.FirstName)
                 .NotNull()
@@ -46,7 +46,7 @@ namespace FindProfessionals.Business.Validators
                 .NotNull()
                 .NotEmpty()
                 .EmailAddress()
-                .Must(IsEmailUnique)
+                .Must(_userService.IsEmailUnique)
                 .WithMessage("This Email is already registered.");
 
             RuleFor(x => x.Password)
@@ -73,7 +73,7 @@ namespace FindProfessionals.Business.Validators
                     .WithMessage("The Document provided is invalid.");
 
                 RuleFor(x => x.Document)
-                    .Must(IsDocumentUnique)
+                    .Must(_userService.IsDocumentUnique)
                     .WithMessage("This Cpf is already registered.");
             });
 
@@ -88,19 +88,9 @@ namespace FindProfessionals.Business.Validators
                     .WithMessage("The Document provided is invalid.");
 
                 RuleFor(x => x.Document)
-                    .Must(IsDocumentUnique)
+                    .Must(_userService.IsDocumentUnique)
                     .WithMessage("This Cnpj is already registered.");
             });
-        }
-
-        private bool IsEmailUnique(string email)
-        {
-            return _userRepository.GetUserByEmail(email) != null;
-        }
-
-        private bool IsDocumentUnique(string document)
-        {
-            return _userRepository.GetUserByDocument(document) != null;
         }
     }
 }

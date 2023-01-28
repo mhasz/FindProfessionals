@@ -2,6 +2,7 @@
 using FindProfessionals.Data.Contexts;
 using FindProfessionals.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace FindProfessionals.Data.Repositories
 {
@@ -14,6 +15,11 @@ namespace FindProfessionals.Data.Repositories
             _context = context;
         }
 
+        public async Task<IEnumerable<User>> Search(Expression<Func<User, bool>> predicate)
+        {
+            return await _context.Users.AsNoTracking().Where(predicate).ToListAsync();
+        }
+
         public async Task<IEnumerable<User>> GetUsersAsync()
         {
             return await _context.Users.AsNoTracking().ToListAsync();
@@ -22,16 +28,6 @@ namespace FindProfessionals.Data.Repositories
         public async Task<User> GetUserByIdAsync(Guid id)
         {
             return await _context.Users.FindAsync(id);
-        }
-
-        public User GetUserByEmail(string email)
-        {
-            return _context.Users.AsNoTracking().Where(x => x.Email.ToLower() == email.ToLower()).SingleOrDefault();
-        }
-
-        public User GetUserByDocument(string document)
-        {
-            return _context.Users.AsNoTracking().Where(x => x.Document.ToLower() == document.ToLower()).SingleOrDefault();
         }
 
         public async Task InsertUserAsync(User user)
