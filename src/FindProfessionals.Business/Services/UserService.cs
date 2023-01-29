@@ -28,7 +28,7 @@ namespace FindProfessionals.Business.Services
             return _mapper.Map<UserDetails>(await _userRepository.GetUserByIdAsync(id));
         }
 
-        public async Task<bool> AddAsync(NewUser newUser)
+        public async Task<UserDetails> AddAsync(NewUser newUser)
         {
             var user = _mapper.Map<User>(newUser);
 
@@ -38,11 +38,10 @@ namespace FindProfessionals.Business.Services
             user.Role = Domain.Enums.UserRole.user;
             user.Active= true;
 
-            await _userRepository.InsertUserAsync(user);
-            return true;
+            return _mapper.Map<UserDetails>(await _userRepository.InsertUserAsync(user));
         }
 
-        public async Task<bool> UpdateAsync(EditUser editUser)
+        public async Task<UserDetails> UpdateAsync(EditUser editUser)
         {
             var user = _mapper.Map<User>(editUser);
 
@@ -50,8 +49,7 @@ namespace FindProfessionals.Business.Services
 
             user.LastUpdate = DateTime.UtcNow.Date;
 
-            await _userRepository.UpdateUserAsync(user);
-            return true;
+            return _mapper.Map<UserDetails>(await _userRepository.UpdateUserAsync(user));
         }
 
         public async Task<bool> RemoveAsync(Guid id)

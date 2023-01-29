@@ -32,29 +32,33 @@ namespace FindProfessionals.Application.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task<ActionResult<User>> Insert(NewUser user)
+        public async Task<ActionResult<User>> Insert(NewUser newUser)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if(!await _userService.AddAsync(user))
-                return BadRequest(user);
+            var user = await _userService.AddAsync(newUser);
+
+            if (user == null)
+                return BadRequest(newUser);
 
             return CreatedAtAction(nameof(GetById), new { Id = user.Id }, user);
         }
 
         [HttpPut]
         [Route("{id:guid}")]
-        public async Task<ActionResult<User>> Update(Guid id, EditUser user)
+        public async Task<ActionResult<User>> Update(Guid id, EditUser editUser)
         {
-            if (id != user.Id)
+            if (id != editUser.Id)
                 return BadRequest();
 
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if(!await _userService.UpdateAsync(user))
-                return BadRequest(user);
+            var user = await _userService.UpdateAsync(editUser);
+
+            if (user == null)
+                return BadRequest(editUser);
 
             return Ok(user);
         }

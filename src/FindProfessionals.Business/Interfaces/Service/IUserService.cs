@@ -7,8 +7,8 @@ namespace FindProfessionals.Business.Interfaces.Service
     {
         Task<IEnumerable<UserDetails>> GetAsync();
         Task<UserDetails> GetByIdAsync(Guid id);
-        Task<bool> AddAsync(NewUser user);
-        Task<bool> UpdateAsync(EditUser user);
+        Task<UserDetails> AddAsync(NewUser user);
+        Task<UserDetails> UpdateAsync(EditUser user);
         Task<bool> RemoveAsync(Guid id);
 
         bool IsEmailUnique(string email);
