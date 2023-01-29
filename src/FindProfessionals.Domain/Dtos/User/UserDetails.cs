@@ -1,8 +1,9 @@
-﻿using FindProfessionals.Domain.Enums;
+﻿using FindProfessionals.Domain.Entities;
+using FindProfessionals.Domain.Enums;
 
-namespace FindProfessionals.Domain.Entities
+namespace FindProfessionals.Domain.Dtos.User
 {
-    public class User
+    public class UserDetails
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }
@@ -12,7 +13,6 @@ namespace FindProfessionals.Domain.Entities
         public DateTime BirthDate { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
         public DateTime? LastLogin { get; set; }
         public DateTime RegistrationDate { get; set; }
         public DateTime? LastUpdate { get; set; }

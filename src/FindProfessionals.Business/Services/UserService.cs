@@ -1,5 +1,7 @@
-﻿using FindProfessionals.Business.Interfaces.Repository;
+﻿using AutoMapper;
+using FindProfessionals.Business.Interfaces.Repository;
 using FindProfessionals.Business.Interfaces.Service;
+using FindProfessionals.Domain.Dtos.User;
 using FindProfessionals.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 
@@ -8,14 +10,28 @@ namespace FindProfessionals.Business.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
-        public async Task<bool> AddAsync(User user)
+        public async Task<IEnumerable<UserDetails>> GetAsync()
         {
+            return _mapper.Map<List<UserDetails>>(await _userRepository.GetUsersAsync());
+        }
+
+        public async Task<UserDetails> GetByIdAsync(Guid id)
+        {
+            return _mapper.Map<UserDetails>(await _userRepository.GetUserByIdAsync(id));
+        }
+
+        public async Task<bool> AddAsync(NewUser newUser)
+        {
+            var user = _mapper.Map<User>(newUser);
+
             ConvertPasswordInHash(user);
 
             user.RegistrationDate = DateTime.UtcNow.Date;
@@ -26,8 +42,10 @@ namespace FindProfessionals.Business.Services
             return true;
         }
 
-        public async Task<bool> UpdateAsync(User user)
+        public async Task<bool> UpdateAsync(EditUser editUser)
         {
+            var user = _mapper.Map<User>(editUser);
+
             ConvertPasswordInHash(user);
 
             user.LastUpdate = DateTime.UtcNow.Date;
@@ -48,7 +66,12 @@ namespace FindProfessionals.Business.Services
             return true;
         }
 
-        public bool IsEmailUnique(User user, string email)
+        public bool IsEmailUnique(string email)
+        {
+            return _userRepository.Search(x => x.Email == email).Result.Any() != null;
+        }
+
+        public bool IsEmailUniqueEdit(EditUser user, string email)
         {
             return _userRepository.Search(x => x.Email == email && x.Id != user.Id).Result.Any() != null;
         }
@@ -80,7 +103,8 @@ namespace FindProfessionals.Business.Services
                 case PasswordVerificationResult.Success:
                     return true;
                 case PasswordVerificationResult.SuccessRehashNeeded:
-                    await UpdateAsync(user);
+                    var editUser = _mapper.Map<EditUser>(user);
+                    await UpdateAsync(editUser);
                     return true;
                 default:
                     throw new InvalidOperationException();

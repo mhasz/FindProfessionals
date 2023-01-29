@@ -1,4 +1,4 @@
-﻿namespace FindProfessionals.Business.Validators.Document
+﻿namespace FindProfessionals.Business.Validators.User.Document
 {
     internal class Utils
     {

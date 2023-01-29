@@ -1,7 +1,6 @@
-﻿using FindProfessionals.Business.Interfaces.Repository;
-using FindProfessionals.Business.Interfaces.Service;
+﻿using FindProfessionals.Business.Interfaces.Service;
+using FindProfessionals.Domain.Dtos.User;
 using FindProfessionals.Domain.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FindProfessionals.Application.Controllers
@@ -10,32 +9,30 @@ namespace FindProfessionals.Application.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
         private readonly IUserService _userService;
 
-        public UsersController(IUserRepository userRepository, IUserService userService)
+        public UsersController(IUserService userService)
         {
-            _userRepository = userRepository;
             _userService = userService;
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<ActionResult<IEnumerable<User>>> Get()
+        public async Task<ActionResult<IEnumerable<UserDetails>>> Get()
         {
-            return Ok(await _userRepository.GetUsersAsync());
+            return Ok(await _userService.GetAsync());
         }
 
         [HttpGet]
         [Route("{id:guid}")]
-        public async Task<ActionResult<User>> GetById(Guid id)
+        public async Task<ActionResult<UserDetails>> GetById(Guid id)
         {
-            return Ok(await _userRepository.GetUserByIdAsync(id));
+            return Ok(await _userService.GetByIdAsync(id));
         }
 
         [HttpPost]
         [Route("")]
-        public async Task<ActionResult<User>> Insert(User user)
+        public async Task<ActionResult<User>> Insert(NewUser user)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -48,7 +45,7 @@ namespace FindProfessionals.Application.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
-        public async Task<ActionResult<User>> Update(Guid id, User user)
+        public async Task<ActionResult<User>> Update(Guid id, EditUser user)
         {
             if (id != user.Id)
                 return BadRequest();
@@ -66,7 +63,7 @@ namespace FindProfessionals.Application.Controllers
         [Route("{id:guid}")]
         public async Task<ActionResult> Delete(Guid id)
         {
-            var user = await _userRepository.GetUserByIdAsync(id);
+            var user = await _userService.GetByIdAsync(id);
 
             if(user == null)
                 return NotFound();
@@ -74,7 +71,7 @@ namespace FindProfessionals.Application.Controllers
             if(!await _userService.RemoveAsync(id))
                 return BadRequest(user);
 
-            return Ok(user);
+            return Ok();
         }
 
     }

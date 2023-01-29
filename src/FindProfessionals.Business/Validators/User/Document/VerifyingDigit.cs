@@ -1,4 +1,4 @@
-﻿namespace FindProfessionals.Business.Validators.Document
+﻿namespace FindProfessionals.Business.Validators.User.Document
 {
     internal class VerifyingDigit
     {
@@ -52,7 +52,7 @@
                 if (++m >= _multipliers.Count) m = 0;
             }
 
-            var mod = (sum % Module);
+            var mod = sum % Module;
             var result = _moduleComplement ? Module - mod : mod;
 
             return _substitutions.ContainsKey(result) ? _substitutions[result] : result.ToString();

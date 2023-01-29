@@ -1,18 +1,16 @@
 ﻿using FindProfessionals.Business.Interfaces.Service;
-using FindProfessionals.Business.Validators.Document;
-using FindProfessionals.Domain.Entities;
+using FindProfessionals.Business.Validators.User.Document;
+using FindProfessionals.Domain.Dtos.User;
 using FindProfessionals.Domain.Enums;
 using FluentValidation;
-using FluentValidation.Results;
-using System;
 
-namespace FindProfessionals.Business.Validators
+namespace FindProfessionals.Business.Validators.User
 {
-    public class UserValidator : AbstractValidator<User>
+    public class NewUserValidator : AbstractValidator<NewUser>
     {
         private readonly IUserService _userService;
 
-        public UserValidator(IUserService userService)
+        public NewUserValidator(IUserService userService)
         {
             _userService = userService;
 

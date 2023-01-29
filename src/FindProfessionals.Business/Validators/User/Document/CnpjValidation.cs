@@ -1,4 +1,6 @@
-﻿namespace FindProfessionals.Business.Validators.Document
+﻿using FindProfessionals.Business.Validators.User.Document;
+
+namespace FindProfessionals.Business.Validators.User.Document
 {
     internal class CnpjValidation
     {
