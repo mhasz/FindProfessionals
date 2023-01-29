@@ -8,8 +8,9 @@ namespace FindProfessionals.Business.Mappings
     {
         public UserMappingProfile()
         {
-            CreateMap<Client, NewUser>().ReverseMap();
-            CreateMap<Client, UserDetails>().ReverseMap();
+            CreateMap<User, NewUser>().ReverseMap();
+            CreateMap<User, EditUser>().ReverseMap();
+            CreateMap<User, UserDetails>().ReverseMap();
         }
     }
 }
