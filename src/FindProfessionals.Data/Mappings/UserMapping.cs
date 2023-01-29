@@ -28,7 +28,7 @@ namespace FindProfessionals.Data.Mappings
 
             builder.Property(u => u.Password)
                 .IsRequired()
-                .HasColumnType("varchar(16)");
+                .HasColumnType("nvarchar(max)");
 
             builder.HasOne(u => u.Address)
                 .WithOne(a => a.User);
