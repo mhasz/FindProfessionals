@@ -3,6 +3,8 @@ using FindProfessionals.Business.Validators.Document;
 using FindProfessionals.Domain.Entities;
 using FindProfessionals.Domain.Enums;
 using FluentValidation;
+using FluentValidation.Results;
+using System;
 
 namespace FindProfessionals.Business.Validators
 {
@@ -27,15 +29,13 @@ namespace FindProfessionals.Business.Validators
                 .MaximumLength(50);
 
             RuleFor(x => x.DocumentType)
-                .NotNull()
-                .NotEmpty()
                 .IsInEnum();
 
             RuleFor(x => x.BirthDate)
                 .NotNull()
                 .NotEmpty()
-                .LessThan(DateTime.Now.AddYears(-18))
-                .GreaterThan(DateTime.Now.AddYears(-100));
+                .LessThan(DateTime.Now.Date.AddYears(-18))
+                .GreaterThan(DateTime.Now.Date.AddYears(-100));
 
             RuleFor(x => x.PhoneNumber)
                 .NotNull()
@@ -43,6 +43,7 @@ namespace FindProfessionals.Business.Validators
                 .Matches("^\\(?[1-9]{2}\\)? ?(?:[2-8]|9[1-9])[0-9]{3}\\-?[0-9]{4}$").WithMessage("Phone in invalid format, please enter your number with area code.");
 
             RuleFor(x => x.Email)
+                .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .NotEmpty()
                 .EmailAddress()

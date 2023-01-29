@@ -14,13 +14,13 @@ namespace FindProfessionals.Domain.Entities
         public string Email { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
-        public DateTime LastLogin { get; set; }
+        public DateTime? LastLogin { get; set; }
         public DateTime RegistrationDate { get; set; }
-        public DateTime LastUpdate { get; set; }
+        public DateTime? LastUpdate { get; set; }
         public UserRole Role { get; set; }
         public bool Active { get; set; }
 
-        public virtual Address Address { get; set; }
+        public virtual Address? Address { get; set; }
         public virtual Client? Client { get; set; }
         public virtual Professional? Professional { get; set; }
     }

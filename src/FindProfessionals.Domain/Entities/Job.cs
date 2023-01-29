@@ -10,7 +10,7 @@ namespace FindProfessionals.Domain.Entities
         public JobType Type { get; set; }
         public JobPriority Priority { get; set; }
         public DateTime Published { get; set; }
-        public DateTime LastUpdate { get; set; }
+        public DateTime? LastUpdate { get; set; }
         public bool Active { get; set; }
 
         public virtual ICollection<Archive>? Archives { get; set; }

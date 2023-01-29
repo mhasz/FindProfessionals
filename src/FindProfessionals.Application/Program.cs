@@ -41,7 +41,11 @@ namespace FindProfessionals.Application
             builder.Services.AddScoped<IValidator<Subcategory>, SubcategoryValidator>();
             builder.Services.AddScoped<IValidator<User>, UserValidator>();
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            });
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

@@ -20,13 +20,9 @@ namespace FindProfessionals.Business.Validators
                 .MaximumLength(1000);
 
             RuleFor(x => x.Type)
-                .NotNull()
-                .NotEmpty()
                 .IsInEnum();
 
             RuleFor(x => x.Priority)
-                .NotNull()
-                .NotEmpty()
                 .IsInEnum();
         }
     }
