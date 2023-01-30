@@ -4,7 +4,6 @@ namespace FindProfessionals.Domain.Dtos.User
 {
     public class NewUser
     {
-        public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public UserDocumentType DocumentType { get; set; }

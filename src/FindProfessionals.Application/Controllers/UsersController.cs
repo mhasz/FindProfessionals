@@ -1,6 +1,5 @@
 ﻿using FindProfessionals.Business.Interfaces.Service;
 using FindProfessionals.Domain.Dtos.User;
-using FindProfessionals.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FindProfessionals.Application.Controllers
@@ -32,35 +31,26 @@ namespace FindProfessionals.Application.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task<ActionResult<User>> Insert(NewUser newUser)
+        public async Task<ActionResult<UserDetails>> Insert(NewUser newUser)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var user = await _userService.AddAsync(newUser);
-
-            if (user == null)
-                return BadRequest(newUser);
-
             return CreatedAtAction(nameof(GetById), new { Id = user.Id }, user);
         }
 
         [HttpPut]
         [Route("{id:guid}")]
-        public async Task<ActionResult<User>> Update(Guid id, EditUser editUser)
+        public async Task<ActionResult<UserDetails>> Update(Guid id, EditUser user)
         {
-            if (id != editUser.Id)
+            if (id != user.Id)
                 return BadRequest();
 
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            var user = await _userService.UpdateAsync(editUser);
-
-            if (user == null)
-                return BadRequest(editUser);
-
-            return Ok(user);
+            
+            return Ok(await _userService.UpdateAsync(user));
         }
 
         [HttpDelete]
@@ -75,8 +65,7 @@ namespace FindProfessionals.Application.Controllers
             if(!await _userService.RemoveAsync(id))
                 return BadRequest(user);
 
-            return Ok();
+            return NoContent();
         }
-
     }
 }

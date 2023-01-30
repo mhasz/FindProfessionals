@@ -46,7 +46,8 @@ namespace FindProfessionals.Data.Repositories
 
         public async Task DeleteUserAsync(Guid id)
         {
-            _context.Users.Remove(new User { Id = id });
+            var user = await _context.Users.FindAsync(id);
+            _context.Users.Remove(user);
             await _context.SaveChangesAsync();
         }
     }

@@ -43,7 +43,12 @@ namespace FindProfessionals.Business.Services
 
         public async Task<UserDetails> UpdateAsync(EditUser editUser)
         {
-            var user = _mapper.Map<User>(editUser);
+            var user = await _userRepository.GetUserByIdAsync(editUser.Id);
+
+            if (user == null)
+                throw new NullReferenceException();
+
+            user = _mapper.Map(editUser, user);
 
             ConvertPasswordInHash(user);
 
@@ -54,12 +59,6 @@ namespace FindProfessionals.Business.Services
 
         public async Task<bool> RemoveAsync(Guid id)
         {
-            if(_userRepository.GetUserByIdAsync(id).Result.Client.Jobs.Any())
-            {
-                // notification - this user has registered jobs.
-                return false;
-            }
-
             await _userRepository.DeleteUserAsync(id);
             return true;
         }
