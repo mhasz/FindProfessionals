@@ -65,12 +65,12 @@ namespace FindProfessionals.Business.Services
 
         public bool IsEmailUnique(string email)
         {
-            return _userRepository.Search(x => x.Email == email).Result.Any() != null;
+            return !_userRepository.Search(x => x.Email == email).Result.Any();
         }
 
         public bool IsEmailUniqueEdit(EditUser user, string email)
         {
-            return _userRepository.Search(x => x.Email == email && x.Id != user.Id).Result.Any() != null;
+            return !_userRepository.Search(x => x.Email == email && x.Id != user.Id).Result.Any();
         }
 
         public bool IsDocumentUnique(string document)
