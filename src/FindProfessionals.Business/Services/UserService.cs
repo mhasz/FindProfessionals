@@ -75,7 +75,7 @@ namespace FindProfessionals.Business.Services
 
         public bool IsDocumentUnique(string document)
         {
-            return _userRepository.Search(x => x.Document == document).Result.Any() != null;
+            return !_userRepository.Search(x => x.Document == document).Result.Any();
         }
 
         private void ConvertPasswordInHash(User user)
