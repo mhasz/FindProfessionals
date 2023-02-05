@@ -1,5 +1,7 @@
 ﻿using FindProfessionals.Business.Interfaces.Service;
 using FindProfessionals.Domain.Dtos.User;
+using FindProfessionals.Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FindProfessionals.Application.Controllers
@@ -17,6 +19,7 @@ namespace FindProfessionals.Application.Controllers
 
         [HttpGet]
         [Route("")]
+        [Authorize(Roles = nameof(UserRole.administrator))]
         public async Task<ActionResult<IEnumerable<UserDetails>>> Get()
         {
             return Ok(await _userService.GetAsync());
@@ -24,6 +27,7 @@ namespace FindProfessionals.Application.Controllers
 
         [HttpGet]
         [Route("{id:guid}")]
+        [Authorize(Roles = nameof(UserRole.administrator))]
         public async Task<ActionResult<UserDetails>> GetById(Guid id)
         {
             return Ok(await _userService.GetByIdAsync(id));
@@ -42,6 +46,7 @@ namespace FindProfessionals.Application.Controllers
 
         [HttpPut]
         [Route("{id:guid}")]
+        [Authorize]
         public async Task<ActionResult<UserDetails>> Update(Guid id, EditUser user)
         {
             if (id != user.Id)
@@ -55,6 +60,7 @@ namespace FindProfessionals.Application.Controllers
 
         [HttpDelete]
         [Route("{id:guid}")]
+        [Authorize(Roles = nameof(UserRole.administrator))]
         public async Task<ActionResult> Delete(Guid id)
         {
             var user = await _userService.GetByIdAsync(id);
@@ -67,5 +73,17 @@ namespace FindProfessionals.Application.Controllers
 
             return NoContent();
         }
+
+        [HttpGet]
+        [Route("login")]
+        public async Task<ActionResult> Authenticate(UserLogin userLogin)
+        {
+            var result = await _userService.ValidateUserAsync(userLogin);
+
+            if (result == null)
+                return Unauthorized();
+
+            return Ok(new { token = result });
+        } 
     }
 }

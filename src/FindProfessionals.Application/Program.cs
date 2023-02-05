@@ -9,7 +9,10 @@ using FindProfessionals.Domain.Dtos.User;
 using FindProfessionals.Domain.Entities;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace FindProfessionals.Application
 {
@@ -34,6 +37,7 @@ namespace FindProfessionals.Application
             builder.Services.AddScoped<IUserRepository, UserRepository>();
 
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
             builder.Services.AddScoped<IValidator<Address>, AddressValidator>();
             builder.Services.AddScoped<IValidator<Category>, CategoryValidator>();
@@ -45,6 +49,28 @@ namespace FindProfessionals.Application
             builder.Services.AddScoped<IValidator<EditUser>, EditUserValidator>();
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetSection("Jwt:Key").Value)),
+                    ValidateAudience = true,
+                    ValidAudience = builder.Configuration.GetSection("Jwt:Audience").Value,
+                    ValidateIssuer = true,
+                    ValidIssuer = builder.Configuration.GetSection("Jwt:Issuer").Value,
+                    ValidateLifetime = true
+                };
+            });
+
+            builder.Services.AddAuthorization();
 
             builder.Services.AddControllers().AddNewtonsoftJson(options =>
             {
@@ -68,8 +94,8 @@ namespace FindProfessionals.Application
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
 

@@ -10,11 +10,13 @@ namespace FindProfessionals.Business.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IJwtTokenService _jwtTokenService;
         private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository, IJwtTokenService jwtTokenService, IMapper mapper)
         {
             _userRepository = userRepository;
+            _jwtTokenService = jwtTokenService;
             _mapper = mapper;
         }
 
@@ -65,33 +67,36 @@ namespace FindProfessionals.Business.Services
 
         public bool IsEmailUnique(string email)
         {
-            return !_userRepository.Search(x => x.Email == email).Result.Any();
+            return !_userRepository.SearchAll(x => x.Email == email).Result.Any();
         }
 
         public bool IsEmailUniqueEdit(EditUser user, string email)
         {
-            return !_userRepository.Search(x => x.Email == email && x.Id != user.Id).Result.Any();
+            return !_userRepository.SearchAll(x => x.Email == email && x.Id != user.Id).Result.Any();
         }
 
         public bool IsDocumentUnique(string document)
         {
-            return !_userRepository.Search(x => x.Document == document).Result.Any();
+            return !_userRepository.SearchAll(x => x.Document == document).Result.Any();
         }
 
-        private void ConvertPasswordInHash(User user)
+        public async Task<string> ValidateUserAsync(UserLogin userLogin)
         {
-            var passwordHasher = new PasswordHasher<User>();
-            user.Password = passwordHasher.HashPassword(user, user.Password);
+            var user = await _userRepository.Search(x => x.Email == userLogin.Email.ToLower());
+
+            if (user == null)
+                return null;
+
+            if (!await ValidatePasswordAsync(user, userLogin))
+                return null;
+
+            return _jwtTokenService.GenerateToken(user);
         }
 
-        public async Task<bool> ValidatePasswordAsync(User user)
+        private async Task<bool> ValidatePasswordAsync(User user, UserLogin userLogin)
         {
-            var currentUser = await _userRepository.GetUserByIdAsync(user.Id);
-            if (currentUser == null)
-                return false;
-
             var passwordHasher = new PasswordHasher<User>();
-            var status = passwordHasher.VerifyHashedPassword(user, currentUser.Password, user.Password);
+            var status = passwordHasher.VerifyHashedPassword(user, user.Password, userLogin.Password);
 
             switch (status)
             {
@@ -100,12 +105,24 @@ namespace FindProfessionals.Business.Services
                 case PasswordVerificationResult.Success:
                     return true;
                 case PasswordVerificationResult.SuccessRehashNeeded:
-                    var editUser = _mapper.Map<EditUser>(user);
-                    await UpdateAsync(editUser);
+                    await RehashPasswordAsync(user, userLogin);
                     return true;
                 default:
                     throw new InvalidOperationException();
             }
+        }
+
+        private void ConvertPasswordInHash(User user)
+        {
+            var passwordHasher = new PasswordHasher<User>();
+            user.Password = passwordHasher.HashPassword(user, user.Password);
+        }
+
+        private async Task RehashPasswordAsync(User user, UserLogin userLogin)
+        {
+            _mapper.Map(userLogin.Password, user);
+            ConvertPasswordInHash(user);
+            await _userRepository.UpdateUserAsync(user);
         }
     }
 }

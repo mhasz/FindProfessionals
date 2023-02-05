@@ -5,7 +5,8 @@ namespace FindProfessionals.Business.Interfaces.Repository
 {
     public interface IUserRepository
     {
-        Task<IEnumerable<User>> Search(Expression<Func<User, bool>> predicate);
+        Task<User> Search(Expression<Func<User, bool>> predicate);
+        Task<IEnumerable<User>> SearchAll(Expression<Func<User, bool>> predicate);
         Task<IEnumerable<User>> GetUsersAsync();
         Task<User> GetUserByIdAsync(Guid id);
         Task<User> InsertUserAsync(User user);

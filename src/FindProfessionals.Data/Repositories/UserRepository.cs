@@ -15,7 +15,12 @@ namespace FindProfessionals.Data.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<User>> Search(Expression<Func<User, bool>> predicate)
+        public async Task<User> Search(Expression<Func<User, bool>> predicate)
+        {
+            return await _context.Users.AsNoTracking().Where(predicate).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<User>> SearchAll(Expression<Func<User, bool>> predicate)
         {
             return await _context.Users.AsNoTracking().Where(predicate).ToListAsync();
         }

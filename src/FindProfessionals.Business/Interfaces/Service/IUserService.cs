@@ -15,6 +15,6 @@ namespace FindProfessionals.Business.Interfaces.Service
         bool IsEmailUniqueEdit(EditUser user, string email);
         bool IsDocumentUnique(string document);
 
-        Task<bool> ValidatePasswordAsync(User user);
+        Task<string> ValidateUserAsync(UserLogin userLogin);
     }
 }
