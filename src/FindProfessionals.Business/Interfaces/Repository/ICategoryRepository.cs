@@ -5,10 +5,10 @@ namespace FindProfessionals.Business.Interfaces.Repository
     public interface ICategoryRepository
     {
         Task<IEnumerable<Category>> GetCategoriesAsync();
-        Task<Category> GetCategoryByIdAsync(int id);
-        Category GetCategoryByName(string name);
-        Task InsertCategoryAsync(Category category);
-        Task UpdateCategoryAsync(Category category);
+        Task<Category> GetCategoryByIdAsync(Guid id);
+        Task<IEnumerable<Category>> GetCategoryByName(string name);
+        Task<Category> InsertCategoryAsync(Category category);
+        Task<Category> UpdateCategoryAsync(Category category);
         Task DeleteCategoryAsync(Guid id);
     }
 }

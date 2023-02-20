@@ -1,4 +1,4 @@
-﻿using FindProfessionals.Business.Interfaces.Repository;
+﻿using FindProfessionals.Business.Interfaces.Service;
 using FindProfessionals.Domain.Entities;
 using FluentValidation;
 
@@ -6,23 +6,19 @@ namespace FindProfessionals.Business.Validators
 {
     public class CategoryValidator : AbstractValidator<Category>
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly ICategoryService _categoryService;
 
-        public CategoryValidator(ICategoryRepository categoryRepository)
+        public CategoryValidator(ICategoryService categoryService)
         {
-            _categoryRepository = categoryRepository;
+            _categoryService = categoryService;
 
             RuleFor(x => x.Name)
+                .Cascade(CascadeMode.Stop)
                 .NotNull()
                 .NotEmpty()
                 .MinimumLength(1)
                 .MaximumLength(50)
-                .Must(IsNameUnique);
-        }
-
-        private bool IsNameUnique(string name)
-        {
-            return _categoryRepository.GetCategoryByName(name) != null;
+                .Must(_categoryService.IsNameUnique);
         }
     }
 }

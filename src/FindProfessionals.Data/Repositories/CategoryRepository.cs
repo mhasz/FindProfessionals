@@ -19,31 +19,34 @@ namespace FindProfessionals.Data.Repositories
             return await _context.Categories.AsNoTracking().ToListAsync();
         }
 
-        public async Task<Category> GetCategoryByIdAsync(int id)
+        public async Task<Category> GetCategoryByIdAsync(Guid id)
         {
             return await _context.Categories.FindAsync(id);
         }
 
-        public Category GetCategoryByName(string name)
+        public async Task<IEnumerable<Category>> GetCategoryByName(string name)
         {
-            return _context.Categories.AsNoTracking().Where(x => x.Name.ToLower() == name.ToLower()).SingleOrDefault();
+            return await _context.Categories.AsNoTracking().Where(x => x.Name.ToLower() == name.ToLower()).ToListAsync();
         }
 
-        public async Task InsertCategoryAsync(Category category)
+        public async Task<Category> InsertCategoryAsync(Category category)
         {
             await _context.Categories.AddAsync(category);
             await _context.SaveChangesAsync();
+            return category;
         }
 
-        public async Task UpdateCategoryAsync(Category category)
+        public async Task<Category> UpdateCategoryAsync(Category category)
         {
             _context.Categories.Update(category);
             await _context.SaveChangesAsync();
+            return category;
         }
 
         public async Task DeleteCategoryAsync(Guid id)
         {
-            _context.Categories.Remove(new Category { Id = id });
+            var category = await _context.Categories.FindAsync(id);
+            _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
         }
     }
