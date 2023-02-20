@@ -41,6 +41,7 @@ namespace FindProfessionals.Application
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAddressService, AddressService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<ISubcategoryService, SubcategoryService>();
             builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
             builder.Services.AddScoped<IValidator<AddressDto>, AddressValidator>();

@@ -24,26 +24,29 @@ namespace FindProfessionals.Data.Repositories
             return await _context.Subcategories.FindAsync(id);
         }
 
-        public Subcategory GetSubcategoryByName(string name)
+        public async Task<IEnumerable<Subcategory>> GetSubcategoryByName(string name)
         {
-            return _context.Subcategories.AsNoTracking().Where(x => x.Name.ToLower() == name.ToLower()).SingleOrDefault();
+            return await _context.Subcategories.AsNoTracking().Where(x => x.Name.ToLower() == name.ToLower()).ToListAsync();
         }
 
-        public async Task InsertSubcategoryAsync(Subcategory subcategory)
+        public async Task<Subcategory> InsertSubcategoryAsync(Subcategory subcategory)
         {
             await _context.AddAsync(subcategory);
             await _context.SaveChangesAsync();
+            return subcategory;
         }
 
-        public async Task UpdateSubcategoryAsync(Subcategory subcategory)
+        public async Task<Subcategory> UpdateSubcategoryAsync(Subcategory subcategory)
         {
             _context.Subcategories.Update(subcategory);
             await _context.SaveChangesAsync();
+            return subcategory;
         }
 
         public async Task DeleteSubcategoryAsync(Guid id)
         {
-            _context.Subcategories.Remove(new Subcategory { Id = id });
+            var subcategory = await _context.Subcategories.FindAsync(id);
+            _context.Subcategories.Remove(subcategory);
             await _context.SaveChangesAsync();
         }
     }

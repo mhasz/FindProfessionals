@@ -33,20 +33,20 @@ namespace FindProfessionals.Application.Controllers
 
         [HttpPost]
         [Route("")]
-        //[Authorize(Roles = nameof(UserRole.administrator))]
+        [Authorize(Roles = nameof(UserRole.administrator))]
         public async Task<ActionResult<Category>> Insert(Category model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var address = await categoryService.AddAsync(model);
+            var category = await categoryService.AddAsync(model);
 
-            return CreatedAtAction(nameof(GetById), new { Id = address.Id }, address);
+            return CreatedAtAction(nameof(GetById), new { Id = category.Id }, category);
         }
 
         [HttpPut]
         [Route("{id:guid}")]
-        //[Authorize(Roles = nameof(UserRole.administrator))]
+        [Authorize(Roles = nameof(UserRole.administrator))]
         public async Task<ActionResult<Category>> Update(Category category, Guid id)
         {
             if (category.Id != id)
@@ -60,8 +60,8 @@ namespace FindProfessionals.Application.Controllers
 
         [HttpDelete]
         [Route("{id:guid}")]
-        //[Authorize(Roles = nameof(UserRole.administrator))]
-        public async Task<ActionResult<Category>> Delete(Guid id)
+        [Authorize(Roles = nameof(UserRole.administrator))]
+        public async Task<ActionResult> Delete(Guid id)
         {
             var category = await categoryService.GetByIdAsync(id);
 
