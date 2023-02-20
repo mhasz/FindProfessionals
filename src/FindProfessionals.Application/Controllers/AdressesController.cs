@@ -1,10 +1,14 @@
 ﻿using FindProfessionals.Business.Interfaces.Service;
 using FindProfessionals.Domain.Dtos.Address;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FindProfessionals.Application.Controllers
 {
-    public class AdressesController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    [Authorize]
+    public class AdressesController : ControllerBase
     {
         private readonly IAddressService addressService;
 
@@ -14,12 +18,14 @@ namespace FindProfessionals.Application.Controllers
         }
 
         [HttpGet]
+        [Route("{id:guid}")]
         public async Task<ActionResult<AddressDto>> GetById(Guid id)
         {
             return Ok(await addressService.GetByIdAsync(id));
         }
 
         [HttpPost]
+        [Route("")]
         public async Task<ActionResult<AddressDto>> Insert(AddressDto model)
         {
             if (!ModelState.IsValid)
@@ -31,6 +37,7 @@ namespace FindProfessionals.Application.Controllers
         }
 
         [HttpPut]
+        [Route("{id:guid}")]
         public async Task<ActionResult<AddressDto>> Update(AddressDto model, Guid id)
         {
             if (model.Id != id)
@@ -43,6 +50,7 @@ namespace FindProfessionals.Application.Controllers
         }
 
         [HttpDelete]
+        [Route("{id:guid}")]
         public async Task<ActionResult> Delete(Guid id)
         {
             var address = await addressService.GetByIdAsync(id);
