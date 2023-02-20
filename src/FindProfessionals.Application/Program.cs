@@ -2,9 +2,11 @@ using FindProfessionals.Business.Interfaces.Repository;
 using FindProfessionals.Business.Interfaces.Service;
 using FindProfessionals.Business.Services;
 using FindProfessionals.Business.Validators;
+using FindProfessionals.Business.Validators.Address;
 using FindProfessionals.Business.Validators.User;
 using FindProfessionals.Data.Contexts;
 using FindProfessionals.Data.Repositories;
+using FindProfessionals.Domain.Dtos.Address;
 using FindProfessionals.Domain.Dtos.User;
 using FindProfessionals.Domain.Entities;
 using FluentValidation;
@@ -37,9 +39,10 @@ namespace FindProfessionals.Application
             builder.Services.AddScoped<IUserRepository, UserRepository>();
 
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IAddressService, AddressService>();
             builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
-            builder.Services.AddScoped<IValidator<Address>, AddressValidator>();
+            builder.Services.AddScoped<IValidator<AddressDto>, AddressValidator>();
             builder.Services.AddScoped<IValidator<Category>, CategoryValidator>();
             builder.Services.AddScoped<IValidator<Job>, JobValidator>();
             builder.Services.AddScoped<IValidator<Professional>, ProfessionalValidator>();

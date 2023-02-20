@@ -1,9 +1,9 @@
-﻿using FindProfessionals.Domain.Entities;
+﻿using FindProfessionals.Domain.Dtos.Address;
 using FluentValidation;
 
-namespace FindProfessionals.Business.Validators
+namespace FindProfessionals.Business.Validators.Address
 {
-    public class AddressValidator : AbstractValidator<Address>
+    public class AddressValidator : AbstractValidator<AddressDto>
     {
         public AddressValidator()
         {

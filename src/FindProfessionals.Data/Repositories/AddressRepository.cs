@@ -18,21 +18,24 @@ namespace FindProfessionals.Data.Repositories
             return await _context.Adresses.FindAsync(id);
         }
 
-        public async Task InsertAddressAsync(Address address)
+        public async Task<Address> InsertAddressAsync(Address address)
         {
             await _context.Adresses.AddAsync(address);
             await _context.SaveChangesAsync();
+            return address;
         }
 
-        public async Task UpdateAddressAsync(Address address)
+        public async Task<Address> UpdateAddressAsync(Address address)
         {
             _context.Adresses.Update(address);
             await _context.SaveChangesAsync();
+            return address;
         }
 
         public async Task DeleteAddressAsync(Guid id)
         {
-            _context.Adresses.Remove(new Address { Id = id });
+            var address = await _context.Adresses.FindAsync(id);
+            _context.Adresses.Remove(address);
             await _context.SaveChangesAsync();
         }
     }

@@ -5,8 +5,8 @@ namespace FindProfessionals.Business.Interfaces.Repository
     public interface IAddressRepository
     {
         Task<Address> GetAddressByIdAsync(Guid id);
-        Task InsertAddressAsync(Address address);
-        Task UpdateAddressAsync(Address address);
+        Task<Address> InsertAddressAsync(Address address);
+        Task<Address> UpdateAddressAsync(Address address);
         Task DeleteAddressAsync(Guid id);
     }
 }

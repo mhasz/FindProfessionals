@@ -1,4 +1,5 @@
-﻿using FindProfessionals.Domain.Entities;
+﻿using FindProfessionals.Domain.Dtos.Address;
+using FindProfessionals.Domain.Entities;
 using FindProfessionals.Domain.Enums;
 
 namespace FindProfessionals.Domain.Dtos.User
@@ -19,7 +20,7 @@ namespace FindProfessionals.Domain.Dtos.User
         public UserRole Role { get; set; }
         public bool Active { get; set; }
 
-        public virtual Address? Address { get; set; }
+        public virtual AddressDto? Address { get; set; }
         public virtual Client? Client { get; set; }
         public virtual Professional? Professional { get; set; }
     }
