@@ -21,24 +21,27 @@ namespace FindProfessionals.Data.Repositories
 
         public async Task<Client> GetClientByIdAsync(Guid id)
         {
-            return await _context.Clients.FindAsync(id);
+            return await _context.Clients.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task InsertClientAsync(Client client)
+        public async Task<Client> InsertClientAsync(Client client)
         {
             await _context.Clients.AddAsync(client);
             await _context.SaveChangesAsync();
+            return client;
         }
 
-        public async Task UpdateClientAsync(Client client)
+        public async Task<Client> UpdateClientAsync(Client client)
         {
             _context.Clients.Update(client);
             await _context.SaveChangesAsync();
+            return client;
         }
 
         public async Task DeleteClientAsync(Guid id)
         {
-            _context.Clients.Remove(new Client { Id = id });
+            var client = await _context.Clients.FindAsync(id);
+            _context.Clients.Remove(client);
             await _context.SaveChangesAsync();
         }
     }
