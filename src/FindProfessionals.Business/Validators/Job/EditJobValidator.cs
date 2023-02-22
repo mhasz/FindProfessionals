@@ -1,11 +1,11 @@
-﻿using FindProfessionals.Domain.Entities;
+﻿using FindProfessionals.Domain.Dtos.Job;
 using FluentValidation;
 
-namespace FindProfessionals.Business.Validators
+namespace FindProfessionals.Business.Validators.Job
 {
-    public class JobValidator : AbstractValidator<Job>
+    public class EditJobValidator : AbstractValidator<EditJob>
     {
-        public JobValidator()
+        public EditJobValidator()
         {
             RuleFor(x => x.Title)
                 .NotNull()

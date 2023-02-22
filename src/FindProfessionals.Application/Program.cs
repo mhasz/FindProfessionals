@@ -3,10 +3,12 @@ using FindProfessionals.Business.Interfaces.Service;
 using FindProfessionals.Business.Services;
 using FindProfessionals.Business.Validators;
 using FindProfessionals.Business.Validators.Address;
+using FindProfessionals.Business.Validators.Job;
 using FindProfessionals.Business.Validators.User;
 using FindProfessionals.Data.Contexts;
 using FindProfessionals.Data.Repositories;
 using FindProfessionals.Domain.Dtos.Address;
+using FindProfessionals.Domain.Dtos.Job;
 using FindProfessionals.Domain.Dtos.User;
 using FindProfessionals.Domain.Entities;
 using FluentValidation;
@@ -43,11 +45,13 @@ namespace FindProfessionals.Application
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<ISubcategoryService, SubcategoryService>();
             builder.Services.AddScoped<IClientService, ClientService>();
+            builder.Services.AddScoped<IJobService, JobService>();
             builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
             builder.Services.AddScoped<IValidator<AddressDto>, AddressValidator>();
             builder.Services.AddScoped<IValidator<Category>, CategoryValidator>();
-            builder.Services.AddScoped<IValidator<Job>, JobValidator>();
+            builder.Services.AddScoped<IValidator<NewJob>, NewJobValidator>();
+            builder.Services.AddScoped<IValidator<EditJob>, EditJobValidator>();
             builder.Services.AddScoped<IValidator<Professional>, ProfessionalValidator>();
             builder.Services.AddScoped<IValidator<Rating>, RatingValidator>();
             builder.Services.AddScoped<IValidator<Subcategory>, SubcategoryValidator>();

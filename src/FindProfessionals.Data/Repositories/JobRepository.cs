@@ -24,21 +24,24 @@ namespace FindProfessionals.Data.Repositories
             return await _context.Jobs.FindAsync(id);
         }
 
-        public async Task InsertJobAsync(Job job)
+        public async Task<Job> InsertJobAsync(Job job)
         {
             await _context.AddAsync(job);
             await _context.SaveChangesAsync();
+            return job;
         }
 
-        public async Task UpdateJobAsync(Job job)
+        public async Task<Job> UpdateJobAsync(Job job)
         {
             _context.Jobs.Update(job);
             await _context.SaveChangesAsync();
+            return job;
         }
 
         public async Task DeleteJobAsync(Guid id)
         {
-            _context.Jobs.Remove(new Job { Id = id });
+            var job = await _context.Jobs.FindAsync(id);
+            _context.Jobs.Remove(job);
             await _context.SaveChangesAsync();
         }
     }

@@ -24,6 +24,11 @@ namespace FindProfessionals.Data.Repositories
             return await _context.Clients.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<Client> GetClientByUserLogged(Guid id)
+        {
+            return await _context.Clients.AsNoTracking().FirstOrDefaultAsync(x => x.UserId == id);
+        }
+
         public async Task<Client> InsertClientAsync(Client client)
         {
             await _context.Clients.AddAsync(client);
